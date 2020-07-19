@@ -22,10 +22,6 @@ class DB_Handling {
 	}
 
 
-	public function insert_table(){
-		
-	}
-
 }
 
 new DB_Handling();

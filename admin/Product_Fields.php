@@ -14,13 +14,13 @@ class Product_Fields {
 	}
 
 	public function woo_extend_code_function() {
-		// Get the existing value
-		$value       = get_post_meta( get_the_ID(), 'product_code', true );
 		$value_field = '';
-		if ( $value !== '' ) {
-			$value_field = 'value=' . $value . '';
-		} else {
-			$value_field = '';
+		global $wpdb;
+		$results = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
+		);
+		foreach ( $results as $result ) {
+			$value_field = 'value=' . $result->product_code . '';
 		}
 		// Condition to show the button
 		$html  = '<form method="post">';
@@ -31,17 +31,15 @@ class Product_Fields {
 
 	public function on_save_function() {
 		global $wpdb;
-		if ( isset( $_POST['product-code'] ) ) {
-			$product_id = get_the_ID();
-			$code       = $_POST['product-code'];
-			$table_name = 'woo_extend_codes';
-			$data       = array(
-				'product_id' => $product_id,
-				'code'       => $code,
-			);
-			$format     = array( '%d', '%d' );
-			$wpdb->insert( $table_name, $data, $format );
+		$results = $wpdb->get_results(
+			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
+		);
+		if ( empty( $results ) ) {
+			$wpdb->query( $wpdb->prepare( ' INSERT INTO woo_extend_codes ( product_id, product_code ) VALUES ( %d, %s ) ', array( get_the_ID(), $_POST['product-code'] ) ) );
+		} else {
+			$wpdb->query( $wpdb->prepare( 'UPDATE woo_extend_codes SET product_code=%s WHERE product_id=%d', array( $_POST['product-code'], get_the_ID() ) ) );
 		}
+
 	}
 }
 

@@ -28,8 +28,8 @@ class Plugin_Setup {
 		// Product Page Functions
 		require_once 'admin/Product_Fields.php';
 
-		// testing function
-		add_action( 'admin_head', array( $this, 'test_func' ) );
+		// Email Customizing Functions
+		require_once 'admin/Email_Customizer.php';
 	}
 
 
