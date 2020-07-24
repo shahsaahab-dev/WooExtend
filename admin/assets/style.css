@@ -14,3 +14,22 @@ Styles for Admin Styles
     border-radius: 0!important;
     margin-left: 1px!important;
 }
+
+
+.wrapper {
+    max-width: 98%;
+    margin-top: 50px;
+}
+.wrapper .subsubsub li {
+    color: #222;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+div#product_field_custom {
+    min-height: 250px;
+}
+
+textarea.form-input-tip.extend-woo-code {
+    min-height: 250px;
+}

@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Product_Fields {
 	public function __construct() {
-		$this->insert_fields_product_page();
+		add_action( 'add_meta_boxes', array( $this, 'insert_fields_product_page' ) );
 		add_action( 'save_post', array( $this, 'on_save_function' ) );
 	}
 
@@ -20,11 +20,11 @@ class Product_Fields {
 			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
 		);
 		foreach ( $results as $result ) {
-			$value_field = 'value=' . $result->product_code . '';
+			$value_field = $result->product_code;
 		}
 		// Condition to show the button
 		$html  = '<form method="post">';
-		$html .= '<input name="product-code" class="form-input-tip extend-woo-code" placeholder="Enter Code Here" ' . $value_field . '></input>';
+		$html .= '<textarea name="product-code" class="form-input-tip extend-woo-code" placeholder="Codes for This Product. One Code per Line.">' . $value_field . '</textarea>';
 		$html .= '</form>';
 		echo $html;
 	}

@@ -20,11 +20,11 @@ class Plugin_Setup {
 	}
 
 	public function __construct() {
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'woo_extend_style_scripts' ) );
 		// Database Functions
 		require_once 'admin/DB_Handling.php';
-
+		// Custom Menu page
+		require_once 'admin/Custom_Menu.php';
 		// Product Page Functions
 		require_once 'admin/Product_Fields.php';
 
@@ -33,10 +33,6 @@ class Plugin_Setup {
 	}
 
 
-	public function test_func() {
-		$screen = get_current_screen();
-		echo '<script>console.log(' . $screen->parent_base . ')</script>';
-	}
 }
 // Instantiate The Plugin
 Plugin_Setup::instance();
