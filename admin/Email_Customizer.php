@@ -44,7 +44,8 @@ class Email_Customizer {
 
 	public function delete_code_from_db() {
 		global $wpdb;
-		$wpdb->delete( 'woo_extend_codes', array( 'product_result' => 'used' ), array( '%d' ) );
+		$wpdb->delete( 'woo_extend_codes', array( 'product_result' => 'used' ), array( '%s' ) );
+		$wpdb->delete( 'woo_extend_codes', array( 'product_code' => '' ), array( '%s' ) );
 	}
 
 
