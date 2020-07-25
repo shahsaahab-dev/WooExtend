@@ -20,12 +20,12 @@ class Product_Fields {
 			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
 		);
 		foreach ( $results as $result ) {
-			$value_field = $result->product_code;
-		}
-		// Condition to show the button
-		$html  = '<form method="post">';
-		$html .= '<textarea name="product-code" class="form-input-tip extend-woo-code" placeholder="Codes for This Product. One Code per Line.">' . $value_field . '</textarea>';
-		$html .= '</form>';
+			$codes[] = $result->product_code;
+		}?>
+		<form method="post">
+		<textarea name="product-code" class="form-input-tip extend-woo-code" placeholder="Codes for This Product. One Code per Line."></textarea>
+		</form>
+		<?php
 		echo $html;
 	}
 
@@ -34,10 +34,14 @@ class Product_Fields {
 		$results = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
 		);
-		if ( empty( $results ) ) {
-			$wpdb->query( $wpdb->prepare( ' INSERT INTO woo_extend_codes ( product_id, product_code ) VALUES ( %d, %s ) ', array( get_the_ID(), $_POST['product-code'] ) ) );
+		if ( $_POST['product-code'] !== '' ) {
+			$codeString = $_POST['product-code'];
+			$codeArray  = preg_split( '/[\n\r]+/', $codeString );
+			foreach ( $codeArray as $code ) {
+				$wpdb->query( $wpdb->prepare( ' INSERT INTO woo_extend_codes ( product_id, product_code ) VALUES ( %d, %s ) ', array( get_the_ID(), $code ) ) );
+			}
 		} else {
-			$wpdb->query( $wpdb->prepare( 'UPDATE woo_extend_codes SET product_code=%s WHERE product_id=%d', array( $_POST['product-code'], get_the_ID() ) ) );
+			return 'Product saved, no codes were inserted or updated!';
 		}
 
 	}
