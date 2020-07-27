@@ -26,24 +26,24 @@ class Product_Fields {
 		<textarea name="product-code" class="form-input-tip extend-woo-code" placeholder="Codes for This Product. One Code per Line."></textarea>
 		</form>
 		<?php
-		echo $html;
 	}
 
-	public function on_save_function() {
-		global $wpdb;
-		$results = $wpdb->get_results(
-			$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
-		);
-		if ( $_POST['product-code'] !== '' ) {
-			$codeString = $_POST['product-code'];
-			$codeArray  = preg_split( '/[\n\r]+/', $codeString );
-			foreach ( $codeArray as $code ) {
-				$wpdb->query( $wpdb->prepare( ' INSERT INTO woo_extend_codes ( product_id, product_code ) VALUES ( %d, %s ) ', array( get_the_ID(), $code ) ) );
+	public function on_save_function($post) {
+		if(isset($_POST['product-code'])){
+			global $wpdb;
+			$results = $wpdb->get_results(
+				$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', get_the_ID() )
+			);
+			if ( $_POST['product-code'] !== '' ) {
+				$codeString = $_POST['product-code'];
+				$codeArray  = preg_split( '/[\n\r]+/', $codeString );
+				foreach ( $codeArray as $code ) {
+					$wpdb->query( $wpdb->prepare( ' INSERT INTO woo_extend_codes ( product_id, product_code ) VALUES ( %d, %s ) ', array( get_the_ID(), $code ) ) );
+				}
+			} else {
+				return 'Product saved, no codes were inserted or updated!';
 			}
-		} else {
-			return 'Product saved, no codes were inserted or updated!';
 		}
-
 	}
 }
 

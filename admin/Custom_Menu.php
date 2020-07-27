@@ -22,55 +22,75 @@ class Custom_Menu {
 	}
 
 	public function ticket_code_cb() {?>
-		<div class="wrapper">
+<div class="wrapper">
 	<h1 class="wp-heading-inline"><?php echo __( 'Ticket Codes', 'woo-extend' ); ?></h1>
-	<ul class="subsubsub">
-	<li class="all"> All (29)</li>
-</ul>
 	<table class="wp-list-table widefat fixed striped posts">
-	<thead>
-		<tr>
-		   <th>#</th>
-		   <th>Product ID</th>
-		   <th>Product Codes</th>
-		   <th>Code Status</th>
-		</tr>
-	</thead>
+		<thead>
+			<tr>
+				<th>Product ID</th>
+				<th>Product Name</th>
+				<th>Product Codes</th>
+				<th>Code Status</th>
+			</tr>
+		</thead>
 
-	<tbody id="the-list">
-		<tr  class="iedit">
-			<?php
-			global $wpdb;
-			$results = $wpdb->get_results(
-				$wpdb->prepare( 'SELECT * from woo_extend_codes' )
-			);
-			foreach ( $results as $result ) {
-				?>
-				<tr>
-				<td><?php echo $result->id; ?></td>
-				<td><?php echo $result->product_id; ?></td>
-				<td><?php echo $result->product_codes; ?></td>
-				<td><?php echo $result->product_result; ?></td>
-				</tr>
+		<tbody id="the-list">
+			<tr class="iedit">
 				<?php
+			global $wpdb;
+				$results = $wpdb->get_results( 'SELECT DISTINCT product_id FROM woo_extend_codes' );
+			foreach ( $results as $result ) {
+				if ( $result->product_id !== '0' ) {?>
+			<tr>
+				<td>
+					<?php echo $result->product_id; ?>
+				</td>
+				<?php
+				
+					?>
+				<td>
+					<?php
+						$product_id = $result->product_id;
+						$product_obj = wc_get_product($product_id);
+						echo $product_obj->get_title();
+					?>
+				</td>
+				<td>
+					<?php
+						$results_2 = $wpdb->get_results(
+							$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d', array( $result->product_id ) )
+						);
+					foreach ( $results_2 as $product_code ) {
+						echo $product_code->product_code . '<br/>';
+					}
+					?>
+				</td>
+
+				<td><?php echo __("Not Used","woo-extend") ?></td>
+			</tr>
+
+			<?php
+				} else {
+					echo '';
+				}
 			}
 
 			?>
-		</tr>
-	</tbody>
+			</tr>
+		</tbody>
 
-	<tfoot>
-		<tr>
-		<th>#</th>
-		   <th>Product ID</th>
-		   <th>Product Codes</th>
-		   <th>Code Status</th>
-		</tr>
-	</tfoot>
+		<tfoot>
+			<tr>
+				<th>Product ID</th>
+				<th>Product Name</th>
+				<th>Product Codes</th>
+				<th>Code Status</th>
+			</tr>
+		</tfoot>
 
-</table>
-	</div>
-		<?php
+	</table>
+</div>
+<?php
 	}
 }
 

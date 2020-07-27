@@ -30,6 +30,9 @@ class Plugin_Setup {
 
 		// Email Customizing Functions
 		require_once 'admin/Email_Customizer.php';
+
+		// Delete Product Hooks
+		require_once 'admin/Delete_Product.php';
 	}
 
 

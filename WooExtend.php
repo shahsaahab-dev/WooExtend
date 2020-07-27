@@ -33,7 +33,7 @@ final class WooExtend {
 		}
 
 		// All Checks Done, its all good. Lets initialize the Plugin Now.
-		require_once 'plugin_setup.php';
+		require_once 'Plugin_Setup.php';
 	}
 
 	public function woo_missing_message() {

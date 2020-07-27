@@ -10,11 +10,11 @@ class DB_Handling {
 		$this->create_table();
 	}
 
-	public function create_table() {
+	private function create_table() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$sql             = 'CREATE TABLE woo_extend_codes(
+		$sql             = 'CREATE TABLE IF NOT EXISTS woo_extend_codes(
             id INT(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
             product_id INT(9) NOT NULL,
             product_code VARCHAR(255),
