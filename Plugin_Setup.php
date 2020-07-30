@@ -28,11 +28,17 @@ class Plugin_Setup {
 		// Product Page Functions
 		require_once 'admin/Product_Fields.php';
 
+		
+		// Override Email
+		require_once 'admin/Override_Email.php';
+
+		
 		// Email Customizing Functions
 		require_once 'admin/Email_Customizer.php';
 
 		// Delete Product Hooks
 		require_once 'admin/Delete_Product.php';
+
 	}
 
 
