@@ -52,7 +52,9 @@ class Custom_Menu {
 					<?php
 						$product_id = $result->product_id;
 						$product_obj = wc_get_product($product_id);
-						echo $product_obj->get_title();
+						if($product_obj){
+							echo $product_obj->get_title();
+						}
 					?>
 				</td>
 				<td>

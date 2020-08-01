@@ -57,16 +57,18 @@
 <i style="mso-bidi-font-style: normal;"><span style="font-size: 19pt; font-family: 'Adobe Kaiti Std R', serif; mso-bidi-font-family: 'Adobe Hebrew';"> </span></i>
 <i style="mso-bidi-font-style: normal;">
 <span style="font-size: 18pt; font-family: 'Adobe Kaiti Std R', serif; mso-bidi-font-family: 'Adobe Hebrew';">
-To Enjoy The Live Streaming of <?php 
+To Enjoy The Live Streaming of 
+<?php
 
 foreach ( $order->get_items() as $item_id => $item ) {
-$product_id = $item->get_product_id();
-$product = wc_get_product($product_id);
-echo $product->get_title();
-    
+	$product_id = $item->get_product_id();
+	$product    = wc_get_product( $product_id );
+	echo $product->get_title();
+
 }
 
-?><o:p></o:p>
+?>
+<o:p></o:p>
 </span>
 </i>
 </p>
@@ -80,14 +82,15 @@ echo $product->get_title();
 <?php
 global $wpdb;
 foreach ( $order->get_items() as $item_id => $item ) {
-    $product_id = $item->get_product_id();
-    $quantity   = $item->get_quantity();
-    $results    = $wpdb->get_results(
-        $wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d AND product_result=%d ORDER BY id DESC LIMIT %d', array( $product_id, 'used', $quantity ) )
-    );
-    foreach ( $results as $result ) {
-        echo 'Ticket Code: <strong>' . $result->product_code . '</strong><br>';
-    }
+	$product_id = $item->get_product_id();
+	$quantity   = $item->get_quantity();
+	$product    = wc_get_product( $product_id );
+	$results    = $wpdb->get_results(
+		$wpdb->prepare( 'SELECT * from woo_extend_codes WHERE product_id=%d AND product_result=%d ORDER BY id DESC LIMIT %d', array( $product_id, 'used', $quantity ) )
+	);
+	foreach ( $results as $result ) {
+		echo 'Ticket Code for ' . $product->get_title() . ' : <strong>' . $result->product_code . '</strong><br>';
+	}
 }
 ?>
 
@@ -224,7 +227,7 @@ border="0"
 width="694"
 height="512"
 id="Imagen_x0020_10"
-src="https://pisphaff.sirv.com/img5.jpeg"
+src="https://pisphaff.sirv.com/Presentaci%C3%B3n1%20en%20ingles%20bien.jpg"
 alt="Captura de pantalla de un celular
 
 DescripciÃ³n generada automÃ¡ticamente"
